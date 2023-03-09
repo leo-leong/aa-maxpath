@@ -21,6 +21,7 @@ int main()
     //cout << "\nYou've entered:\n";
     //cout << longPath;
 
+    //TODO: Bug on creating file within solution folder instead of intended target location
     HANDLE fileHandle = CreateFileW((LPCWCHAR)longPath.c_str(), GENERIC_WRITE, NULL, 0, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
      if (INVALID_HANDLE_VALUE == fileHandle)
     {
