@@ -5,6 +5,9 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <tchar.h>
+
+#define BUFSIZE 4096
 
 int main()
 {
@@ -15,8 +18,8 @@ int main()
     cout << "Please enter a long full path name in the UNC format. E.g. \\\\?\\C:\\Temp\\verylongfilename.txt):\n";
     getline(std::cin, longPath);
 
-    cout << "\nYou've entered:\n";
-    cout << longPath;
+    //cout << "\nYou've entered:\n";
+    //cout << longPath;
 
     HANDLE fileHandle = CreateFileW((LPCWCHAR)longPath.c_str(), GENERIC_WRITE, NULL, 0, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
      if (INVALID_HANDLE_VALUE == fileHandle)
@@ -25,13 +28,22 @@ int main()
         return 1;
     }
 
-    string text = "Hello World!";
+     DWORD dwRetVal{ 0 };
+     
+     TCHAR Path[BUFSIZE];
+     dwRetVal = GetFinalPathNameByHandleW(fileHandle, Path, BUFSIZE, VOLUME_NAME_NT);
+     if (dwRetVal < BUFSIZE)
+     {
+         _tprintf(TEXT("\nThe final path is: \n%s\n"), Path);
+     }
+
+    /*string text = "Hello World!";
     DWORD bytesWritten{ 0 };
     if (!WriteFile(fileHandle, text.c_str(), text.length(), &bytesWritten, NULL))
     {
         cerr << "Failed to write to file..." << endl;
         return 1;
-    }
+    }*/
 
     CloseHandle(fileHandle);
 
