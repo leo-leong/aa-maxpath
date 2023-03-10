@@ -26,7 +26,6 @@ int main()
     pwc = new wchar_t[requiredSize];
     mbstowcs_s(&size, pwc, requiredSize, cstr, requiredSize - 1);
 
-    //TODO: Bug on creating file within solution folder instead of intended target location
      HANDLE fileHandle = CreateFileW(pwc, GENERIC_WRITE, NULL, 0, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
      if (INVALID_HANDLE_VALUE == fileHandle)
     {
